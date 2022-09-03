@@ -80,18 +80,20 @@ gcloud container clusters create polls --scopes "https://www.googleapis.com/auth
 
 2. Create Persistent Volume
 - create an NFS disk - for production use SSD!
+This is needed to provision volume claim with access mode ReadWriteMany.
+
 ```
 gcloud compute disks create --size=20GB --zone=us-central1-c nfs-disk
 ```
 
 
 ```
-kubectl apply -f persistent-volume.yaml
+kubectl apply -f nfs-pv.yaml
 ```
 
 3. Create Persistent Volume Claim
 ```
-kubectl apply -f persistent-volume-claim.yaml
+kubectl apply -f nfs-pvc.yaml
 ```
 
 4. Create Cloud SQL Secrets
