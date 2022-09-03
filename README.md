@@ -47,6 +47,8 @@ Choose how many days of logs to retain
 - create database
 - create user
 
+!!! Enable Cloud SQL Admin API
+
 
 
 
@@ -61,7 +63,7 @@ docker build -t gcr.io/${GOOGLE_CLOUD_PROJECT}/polls .
 
 2. Push Docker Image to Container Registry
 ```
-gcloud docker push -- gcr.io/$(GOOGLE_CLOUD_PROJECT)/polls
+docker push -- gcr.io/${GOOGLE_CLOUD_PROJECT}/polls
 ```
 
 
@@ -77,6 +79,12 @@ gcloud container clusters create polls --scopes "https://www.googleapis.com/auth
 ```
 
 2. Create Persistent Volume
+- create an NFS disk - for production use SSD!
+```
+gcloud compute disks create --size=20GB --zone=us-central1-c nfs-disk
+```
+
+
 ```
 kubectl apply -f persistent-volume.yaml
 ```
@@ -84,4 +92,49 @@ kubectl apply -f persistent-volume.yaml
 3. Create Persistent Volume Claim
 ```
 kubectl apply -f persistent-volume-claim.yaml
+```
+
+4. Create Cloud SQL Secrets
+- cloud sql proxy:
+```
+kubectl apply -f cloudsql.yaml
+```
+```
+kubectl apply -f cloudsql-oauth-credentials.yaml
+```
+5. Deployment
+
+```
+kubectl apply -f polls.yaml
+```
+Redeploy (restart)
+```
+kubectl rollout restart deployment polls
+```
+
+
+Redeploy (patch)
+
+```
+kubectl patch deployment polls -p "{\"spec\": {\"template\": {\"metadata\": { \"labels\": {  \"redeploy\": \"$(date +%s)\"}}}}}"
+```
+
+
+Redeploy (DOWNTIME)
+```
+kubectl scale deployment polls --replicas=0
+```
+
+## MongoDB Container and Persistent Storage
+
+## Cloud Armor
+- allow only requests from Cloudflare (ip range)
+
+## Cronjob Backup
+
+
+## Debug
+Exec container:
+```
+
 ```

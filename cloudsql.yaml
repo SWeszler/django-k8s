@@ -1,8 +1,9 @@
 apiVersion: v1
 data:
   database: cG9sbHM=
-  password: Tn5TMElTdSVvUG1uNH06ag==
+  password: YEh4e25bejBmNTQqTCptZw==
   username: YWRtaW4=
+  projectid: ZGphbmdvLWs4cy0zNjE0MDMK
 kind: Secret
 metadata:
   name: cloudsql

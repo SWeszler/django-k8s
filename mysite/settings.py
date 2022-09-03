@@ -109,7 +109,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 # [START gke_django_static_config]
-STATIC_URL = 'http://storage.googleapis.com/django-k8s-media/static/'
+STATIC_URL = 'http://storage.googleapis.com/{}/static/'.format(os.getenv('GOOGLE_CLOUD_PROJECT'))
 # STATIC_URL = 'https://storage.googleapis.com/[YOUR_GCS_BUCKET]/static/'
 # [END gke_django_static_config]
 
